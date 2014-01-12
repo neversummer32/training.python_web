@@ -9,7 +9,7 @@ def client(msg, log_buffer=sys.stderr):
     sock = socket.socket(
         socket.AF_INET,
         socket.SOCK_STREAM,
-        socket.IPPROTO_IP)
+        socket.IPPROTO_TCP)
     print >>log_buffer, 'connecting to {0} port {1}'.format(*server_address)
     # TODO: connect your socket to the server here.
     sock.connect(server_address)
