@@ -27,22 +27,21 @@ def client(msg, log_buffer=sys.stderr):
         # 
         #       Make sure that you log each chunk you receive.  Use the print 
         #       statement below to do it. (The tests expect this log format)
-        full_msg = ''
         done = False
-        chunk = sock.recv(16)
-        if len(chunk) < 16:
+        while not done:
+            chunk = sock.recv(16)
             print >>log_buffer, 'received "{0}"'.format(chunk)
-            done = True
-        full_msg += msg
+            if len(chunk) < 16:   
+                done = True
     finally:
         # TODO: after you break out of the loop receiving echoed chunks from 
         #       the server you will want to close your client socket.
-        print >>log_buffer, 'closing socket'
         sock.close()
+        print >>log_buffer, 'closing socket'
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        usg = '\nusage: python echo_client.py "This is my message.  What do you think about that?"\n'
+        usg = '\nusage: python echo_client.py "this is my message"\n'
         print >>sys.stderr, usg
         sys.exit(1)
     

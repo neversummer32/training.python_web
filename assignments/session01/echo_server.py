@@ -10,7 +10,7 @@ def server(log_buffer=sys.stderr):
     sock = socket.socket(
         socket.AF_INET,
         socket.SOCK_STREAM,
-        socket.IPPROTO_IP)
+        socket.IPPROTO_TCP)
     # TODO: Set an option to allow the socket address to be reused immediately
     #       see the end of http://docs.python.org/2/library/socket.html
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -36,7 +36,7 @@ def server(log_buffer=sys.stderr):
             conn, client_address = sock.accept()
 
             try:
-                print >>log_buffer, 'connection - {0}:{1}'.format(*addr)
+                print >>log_buffer, 'connection - {0}:{1}'.format(*address)
 
                 # the inner loop will receive messages sent by the client in 
                 # buffers.  When a complete message has been received, the 
@@ -47,7 +47,7 @@ def server(log_buffer=sys.stderr):
                     #       following line with your code.  It's only here as
                     #       a placeholder to prevent an error in string 
                     #       formatting
-                    data = conn.receive(16)
+                    data = conn.recv(16)
                     print >>log_buffer, 'received "{0}"'.format(data)
                     # TODO: you will need to check here to see if any data was
                     #       received.  If so, send the data you got back to 
@@ -63,7 +63,7 @@ def server(log_buffer=sys.stderr):
                 #       created above when a client connected.  Replace the
                 #       call to `pass` below, which is only there to prevent 
                 #       syntax problems
-                sock.close()
+                conn.close()
             
     except KeyboardInterrupt:
         # TODO: Use the python KeyboardIntterupt exception as a signal to 
@@ -72,7 +72,6 @@ def server(log_buffer=sys.stderr):
         #       prevent syntax problems
         sock.close()
         return
-
 
 if __name__ == '__main__':
     server()
