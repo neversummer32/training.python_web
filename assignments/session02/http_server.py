@@ -52,6 +52,7 @@ def resolve_uri(uri):
     else:
         if not os.path.exists(filename):
             raise ValueError("File Not Found")
+            print >>sys.stderr, "No such file found"
   
 
 def server():
